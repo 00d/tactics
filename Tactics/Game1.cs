@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using TiledSharp;
+using System.Media;
 
 
 #endregion
@@ -20,6 +21,7 @@ namespace Tactics
 {
     public class Settings {
         public static Color OVERLAY_BLUE = new Color(89, 180, 255, 200);
+        public static Color OVERLAY_RED = new Color(248, 104, 104, 200);
     }
 
 	/// <summary>
@@ -31,15 +33,17 @@ namespace Tactics
 
         public GraphicsDeviceManager GraphicsManager;
         public GraphicsDevice Graphics;
-        SpriteBatch spriteBatch;	
-        Map map;
-        Rectangle viewport;
-        List<Unit> Units = new List<Unit>();
-        int tMouseX;
-        int tMouseY;
-        Texture2D overlay;
+        public SpriteBatch SpriteBatch;	
+        public Map Map;
+        public Rectangle Viewport;
+        public List<Unit> Units = new List<Unit>();
+        public Texture2D Overlay;
         public GameState State = GameState.SELECT_UNIT;
-        Unit SelectedUnit;
+        public Team PlayerTeam = Team.BLUE;
+
+        public Unit SelectedUnit;
+
+        public Tile MouseTile; // Whichever tile the player is currently moused over
 
         public Game()
         {
@@ -63,9 +67,9 @@ namespace Tactics
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            viewport = Graphics.Viewport.Bounds;
-            viewport.X = 0;
-            viewport.Y = 0;
+            Viewport = Graphics.Viewport.Bounds;
+            Viewport.X = 0;
+            Viewport.Y = 0;
         }
 
         /// <summary>
@@ -75,16 +79,30 @@ namespace Tactics
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            map = new Map();
-            map.Initialize(this, new TmxMap("Content/Maps/tiletest.tmx"));
-            overlay = Content.Load<Texture2D>("clear");
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Map = new Map();
+            Map.Initialize(this, new TmxMap("Content/Maps/tiletest.tmx"));
+            Overlay = Content.Load<Texture2D>("clear");
 
             var unit = new Unit();
             unit.Initialize(Content.Load<Texture2D>("Sprites/testunit.png"));
-            unit.X = 30;
-            unit.Y = 40;
+            unit.Map = Map;
+            unit.MoveDistance = 10;
+            unit.Team = Team.BLUE;
+            unit.Put(Map.Tiles[30, 40]);
             Units.Add(unit);
+
+            var enemy = new Unit();
+            enemy.Initialize(Content.Load<Texture2D>("Sprites/testenemy.png"));
+            enemy.Map = Map;
+            enemy.MoveDistance = 10;
+            enemy.Team = Team.RED;
+            enemy.Put(Map.Tiles[10, 5]);
+            Units.Add(enemy);
+
+            var backMusic = Content.Load<Song>("Music/HonorableCombat");
+            MediaPlayer.Volume = 1.0f;
+            MediaPlayer.Play(backMusic);
 
         }
         /*
@@ -121,42 +139,78 @@ namespace Tactics
                 Exit();
 
             if (keys.IsKeyDown(Keys.Down))
-                viewport.Y += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
+                Viewport.Y += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
             if (keys.IsKeyDown(Keys.Up))
-                viewport.Y -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
+                Viewport.Y -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
             if (keys.IsKeyDown(Keys.Right))
-                viewport.X += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
+                Viewport.X += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
             if (keys.IsKeyDown(Keys.Left))
-                viewport.X -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
+                Viewport.X -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
 
             var bounds = Graphics.Viewport.Bounds;   
 
             // Calculate screen dimensions in tiles
-            var tScreenWidth = bounds.Width / map.Tmx.TileWidth;
-            var tScreenHeight = bounds.Height / map.Tmx.TileHeight;
+            var tScreenWidth = bounds.Width / Map.Tmx.TileWidth;
+            var tScreenHeight = bounds.Height / Map.Tmx.TileHeight;
 
             // Bound viewport to map edges
-            viewport.X = Math.Min(viewport.X, map.tMapWidth - tScreenWidth);
-            viewport.Y = Math.Min(viewport.Y, map.tMapHeight - tScreenHeight);
-            viewport.Width = tScreenWidth;
-            viewport.Height = tScreenHeight;
+            Viewport.X = Math.Min(Viewport.X, Map.tMapWidth - tScreenWidth);
+            Viewport.Y = Math.Min(Viewport.Y, Map.tMapHeight - tScreenHeight);
+            Viewport.Width = tScreenWidth;
+            Viewport.Height = tScreenHeight;
 
             // Bound to positive coordinates
-            viewport.X = Math.Max(0, viewport.X);
-            viewport.Y = Math.Max(0, viewport.Y);
+            Viewport.X = Math.Max(0, Viewport.X);
+            Viewport.Y = Math.Max(0, Viewport.Y);
 
-            tMouseX = viewport.X + mouse.X / map.Tmx.TileWidth;
-            tMouseY = viewport.Y + mouse.Y / map.Tmx.TileHeight;
+            var tMouseX = Viewport.X + mouse.X / Map.Tmx.TileWidth;
+            var tMouseY = Viewport.Y + mouse.Y / Map.Tmx.TileHeight;
 
-            foreach (var unit in Units) {
-                if (unit.X == tMouseX && unit.Y == tMouseY && mouse.LeftButton == ButtonState.Pressed) {
-                    SelectedUnit = unit;
-                    State = GameState.ORDER_UNIT;
+            MouseTile = Map.Tiles[0, 0];
+            if (Map.WithinBounds(tMouseX, tMouseY)) {                
+                MouseTile = Map.Tiles[tMouseX, tMouseY];               
+            }
+
+
+            if (State == GameState.SELECT_UNIT) {
+                if (keys.IsKeyDown(Keys.Enter)) {
+                    EndTurn();
+                } else {
+                    foreach (var unit in MouseTile.Units) {
+                        if (!unit.Moved && unit.Team == PlayerTeam && mouse.LeftButton == ButtonState.Pressed) {
+                            SelectedUnit = unit;
+                            State = GameState.ORDER_UNIT;
+                        }
+                    }
+                }
+            } else if (State == GameState.ORDER_UNIT) {
+                if (mouse.LeftButton == ButtonState.Pressed && MouseTile != SelectedUnit.Tile) {
+                    var path = Map.PathBetween(SelectedUnit, MouseTile);
+                    if (path != null && path.Count()-1 <= SelectedUnit.MoveDistance) {
+                        SelectedUnit.Put(MouseTile);
+                        SelectedUnit.Moved = true;
+                        State = GameState.SELECT_UNIT;
+                    }                     
                 }
             }
 
             // TODO: Add your update logic here			
             base.Update(gameTime);
+        }
+
+        public void EndTurn() {
+            foreach (var unit in Units) {
+                unit.Moved = false;
+            }
+        }
+
+        /// <summary>
+        /// Find the screen coordinates for a given gameplay tile.
+        /// </summary>
+        /// <returns>The position.</returns>
+        /// <param name="tile">Tile.</param>
+        public Vector2 ScreenPos(Tile tile) {
+            return new Vector2(tile.X * Map.Tmx.TileWidth, tile.Y * Map.Tmx.TileHeight);
         }
 
         /// <summary>
@@ -166,25 +220,39 @@ namespace Tactics
         protected override void Draw(GameTime gameTime)
         {
            	Graphics.Clear(Color.CornflowerBlue);
-		
-            var mouseX = tMouseX * map.Tmx.TileWidth;
-            var mouseY = tMouseY * map.Tmx.TileHeight;
-            var mousePos = new Vector2(mouseX, mouseY);
 
-            spriteBatch.Begin();
-            map.Draw(spriteBatch, viewport);
-            if (State == GameState.SELECT_UNIT) {
-                spriteBatch.Draw(overlay, mousePos, Settings.OVERLAY_BLUE);              
+            SpriteBatch.Begin();
+            Map.Draw(SpriteBatch, Viewport);
+            if (State == GameState.SELECT_UNIT && MouseTile != null) {
+                SpriteBatch.Draw(Overlay, ScreenPos(MouseTile), Settings.OVERLAY_BLUE);              
+                Console.WriteLine("{0} {1} {2} {3}", MouseTile.X, MouseTile.Y, MouseTile.Tmx.Gid, MouseTile.Flags.Obstacle);
             } else if (State == GameState.ORDER_UNIT) {
+                Tile destTile = null;
 
+                foreach (var tile in SelectedUnit.PathMap()) {
+                    SpriteBatch.Draw(Overlay, ScreenPos(tile), Settings.OVERLAY_BLUE);
+                    if (tile == MouseTile && SelectedUnit.CanPass(tile)) {
+                        destTile = tile;
+                    }
+                }
+
+                if (destTile != null) {                    
+                    foreach (var pathtile in Map.PathBetween(SelectedUnit, destTile)) {
+                        SpriteBatch.Draw(Overlay, ScreenPos(pathtile), Color.Green);
+                    }
+                    SpriteBatch.Draw(SelectedUnit.Texture, ScreenPos(destTile), new Color(255, 255, 255, 175));
+                }
             }
 
             foreach (var unit in Units) {
-                var position = new Vector2(unit.X * map.Tmx.TileWidth, unit.Y * map.Tmx.TileHeight);
-                spriteBatch.Draw(unit.Texture, position, Color.White);
+                if (unit.Moved) {
+                    SpriteBatch.Draw(unit.Texture, ScreenPos(unit.Tile), Color.Gray);
+                } else {
+                    SpriteBatch.Draw(unit.Texture, ScreenPos(unit.Tile), Color.White);
+                }
             }
 
-            spriteBatch.End();
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }
