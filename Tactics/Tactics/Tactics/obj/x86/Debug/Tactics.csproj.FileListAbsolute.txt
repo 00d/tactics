@@ -1,0 +1,15 @@
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\clear.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\testenemy.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\testunit.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Map\tiletest.tmx
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Tactics.exe
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Tactics.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\TiledSharp.dll
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\TiledSharp.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\Tactics.exe
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\Tactics.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Tile\bunch_o__free_tiles_by_magiscarf-d6ih36g.png
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma
