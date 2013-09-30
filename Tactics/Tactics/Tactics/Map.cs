@@ -286,7 +286,7 @@ namespace Tactics
             var jStart = viewport.Y;
             var jEnd = viewport.Y + viewport.Height;
 
-            Console.WriteLine("iStart {0} iEnd {1} jStart {2} jEnd {3}", iStart, iEnd, jStart, jEnd);
+            //Console.WriteLine("iStart {0} iEnd {1} jStart {2} jEnd {3}", iStart, iEnd, jStart, jEnd);
 
             // Draw tiles inside canvas
             foreach (var layer in Layers)

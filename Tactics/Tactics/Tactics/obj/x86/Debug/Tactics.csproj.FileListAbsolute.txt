@@ -13,3 +13,4 @@ C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Tile\bunch_o__free_tiles_by_magiscarf-d6ih36g.png
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.xnb
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb

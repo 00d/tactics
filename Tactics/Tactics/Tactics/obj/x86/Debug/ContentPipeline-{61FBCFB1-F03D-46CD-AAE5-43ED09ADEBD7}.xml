@@ -38,6 +38,15 @@
       <Extra>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma</Extra>
       <Time>2013-09-29T20:26:57.8979894+10:00</Time>
     </Item>
+    <Item>
+      <Source>SpriteFont1.spritefont</Source>
+      <Name>SpriteFont1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Time>2013-09-29T23:00:42.7696219+10:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{61FBCFB1-F03D-46CD-AAE5-43ED09ADEBD7}</ContentProjectGUID>

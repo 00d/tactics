@@ -29,7 +29,7 @@ namespace Tactics
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
-        public enum GameState { SELECT_UNIT, ORDER_UNIT }
+        public enum GameState { SELECT_UNIT, ORDER_UNIT_MOVE, ORDER_UNIT_ACTION }
 
         public GraphicsDeviceManager GraphicsManager;
         public GraphicsDevice Graphics;
@@ -40,6 +40,8 @@ namespace Tactics
         public Texture2D Overlay;
         public GameState State = GameState.SELECT_UNIT;
         public Team PlayerTeam = Team.BLUE;
+        public SpriteFont font;
+        public Menu ActiveMenu;
 
         public Unit SelectedUnit;
 
@@ -102,8 +104,10 @@ namespace Tactics
 
             var backMusic = Content.Load<Song>("Music/HonorableCombat");
             MediaPlayer.Volume = 1.0f;
-            MediaPlayer.Play(backMusic);
+            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(backMusic);
 
+            Menu.Font = Content.Load<SpriteFont>("SpriteFont1");
         }
         /*
         private void LoadGriddy() {
@@ -132,20 +136,19 @@ namespace Tactics
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState keys = Keyboard.GetState();
-            MouseState mouse = Mouse.GetState();
+            InputState input = InputState.GetState(gameTime);
 
-            if (keys.IsKeyDown(Keys.Escape))
+            if (input.KeyPressed(Keys.Escape))
                 Exit();
 
-            if (keys.IsKeyDown(Keys.Down))
-                Viewport.Y += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
-            if (keys.IsKeyDown(Keys.Up))
-                Viewport.Y -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
-            if (keys.IsKeyDown(Keys.Right))
-                Viewport.X += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
-            if (keys.IsKeyDown(Keys.Left))
-                Viewport.X -= Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds / 16);
+            if (input.KeyPressed(Keys.Down))
+                Viewport.Y += 1;
+            if (input.KeyPressed(Keys.Up))
+                Viewport.Y -= 1;
+            if (input.KeyPressed(Keys.Right))
+                Viewport.X += 1;
+            if (input.KeyPressed(Keys.Left))
+                Viewport.X -= 1;
 
             var bounds = Graphics.Viewport.Bounds;   
 
@@ -163,8 +166,8 @@ namespace Tactics
             Viewport.X = Math.Max(0, Viewport.X);
             Viewport.Y = Math.Max(0, Viewport.Y);
 
-            var tMouseX = Viewport.X + mouse.X / Map.Tmx.TileWidth;
-            var tMouseY = Viewport.Y + mouse.Y / Map.Tmx.TileHeight;
+            var tMouseX = Viewport.X + input.Mouse.X / Map.Tmx.TileWidth;
+            var tMouseY = Viewport.Y + input.Mouse.Y / Map.Tmx.TileHeight;
 
             MouseTile = Map.Tiles[0, 0];
             if (Map.WithinBounds(tMouseX, tMouseY)) {                
@@ -172,27 +175,42 @@ namespace Tactics
             }
 
 
-            if (State == GameState.SELECT_UNIT) {
-                if (keys.IsKeyDown(Keys.Enter)) {
+             if (State == GameState.SELECT_UNIT) {
+                if (input.KeyPressed(Keys.Enter)) {
                     EndTurn();
                 } else {
                     foreach (var unit in MouseTile.Units) {
-                        if (!unit.Moved && unit.Team == PlayerTeam && mouse.LeftButton == ButtonState.Pressed) {
+                        if (!unit.Moved && unit.Team == PlayerTeam && input.Mouse.LeftButton == ButtonState.Pressed) {
                             SelectedUnit = unit;
-                            State = GameState.ORDER_UNIT;
+                            State = GameState.ORDER_UNIT_MOVE;
                         }
                     }
                 }
-            } else if (State == GameState.ORDER_UNIT) {
-                if (mouse.LeftButton == ButtonState.Pressed && MouseTile != SelectedUnit.Tile) {
-                    var path = Map.PathBetween(SelectedUnit, MouseTile);
-                    if (path != null && path.Count()-1 <= SelectedUnit.MoveDistance) {
-                        SelectedUnit.Put(MouseTile);
-                        SelectedUnit.Moved = true;
-                        State = GameState.SELECT_UNIT;
-                    }                     
-                }
             }
+            else if (State == GameState.ORDER_UNIT_MOVE) {
+                if (input.Mouse.LeftButton == ButtonState.Pressed && MouseTile != SelectedUnit.Tile) {
+                    var path = Map.PathBetween(SelectedUnit, MouseTile);
+                    if (path != null && path.Count() - 1 <= SelectedUnit.MoveDistance) {
+                        SelectedUnit.Put(MouseTile);
+
+                        // Open the action menu
+                        var menu = new Menu();
+                        menu.Initialize(new string[] { "Ability", "Wait" });
+                        ActiveMenu = menu;
+                        State = GameState.ORDER_UNIT_ACTION;
+                    }
+                }
+             } else if (State == GameState.ORDER_UNIT_ACTION) {
+                 ActiveMenu.Update(input);
+
+                 if (ActiveMenu.Chosen) {
+                     if (ActiveMenu.Selection == 0) {
+                     } else {
+                         SelectedUnit.Moved = true;
+                         State = GameState.SELECT_UNIT;
+                     }
+                 }
+             }
 
             // TODO: Add your update logic here			
             base.Update(gameTime);
@@ -226,7 +244,7 @@ namespace Tactics
             if (State == GameState.SELECT_UNIT && MouseTile != null) {
                 SpriteBatch.Draw(Overlay, ScreenPos(MouseTile), Settings.OVERLAY_BLUE);              
                 Console.WriteLine("{0} {1} {2} {3}", MouseTile.X, MouseTile.Y, MouseTile.Tmx.Gid, MouseTile.Flags.Obstacle);
-            } else if (State == GameState.ORDER_UNIT) {
+            } else if (State == GameState.ORDER_UNIT_MOVE) {
                 Tile destTile = null;
 
                 foreach (var tile in SelectedUnit.PathMap()) {
@@ -243,13 +261,18 @@ namespace Tactics
                     SpriteBatch.Draw(SelectedUnit.Texture, ScreenPos(destTile), new Color(255, 255, 255, 175));
                 }
             }
-
+          
             foreach (var unit in Units) {
                 if (unit.Moved) {
                     SpriteBatch.Draw(unit.Texture, ScreenPos(unit.Tile), Color.Gray);
                 } else {
                     SpriteBatch.Draw(unit.Texture, ScreenPos(unit.Tile), Color.White);
                 }
+            }
+
+            if (State == GameState.ORDER_UNIT_ACTION) {
+                var spos = ScreenPos(SelectedUnit.Tile);
+                ActiveMenu.Draw(new Vector2((float)(spos.X + Map.Tmx.TileWidth*1.5), spos.Y - ActiveMenu.Height/2), SpriteBatch);
             }
 
             SpriteBatch.End();
