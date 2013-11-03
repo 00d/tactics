@@ -321,7 +321,6 @@ namespace Tactics
             Texture2D newSheet;
             Stream imgStream;
 
-
             imgStream = File.OpenRead(filepath);
 
             newSheet = Texture2D.FromStream(Game.Graphics, imgStream);

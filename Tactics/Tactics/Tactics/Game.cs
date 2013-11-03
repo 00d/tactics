@@ -42,6 +42,7 @@ namespace Tactics
         public Team PlayerTeam = Team.BLUE;
         public SpriteFont font;
         public Menu ActiveMenu;
+        public List<Animation> Animations = new List<Animation>(); // Currently playing animations
 
         public Unit SelectedUnit;
 
@@ -136,6 +137,18 @@ namespace Tactics
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            var inputBlocked = false;
+
+            foreach (var anim in Animations.ToArray()) { // Copy because this list may be altered by animations stopping
+                anim.Update(gameTime);
+
+                if (anim.BlockInput) {
+                    inputBlocked = true;
+                }
+            }
+
+            if (inputBlocked) return;
+
             InputState input = InputState.GetState(gameTime);
 
             if (input.KeyPressed(Keys.Escape))
@@ -189,16 +202,7 @@ namespace Tactics
             }
             else if (State == GameState.ORDER_UNIT_MOVE) {
                 if (input.Mouse.LeftButton == ButtonState.Pressed && MouseTile != SelectedUnit.Tile) {
-                    var path = Map.PathBetween(SelectedUnit, MouseTile);
-                    if (path != null && path.Count() - 1 <= SelectedUnit.MoveDistance) {
-                        SelectedUnit.Put(MouseTile);
-
-                        // Open the action menu
-                        var menu = new Menu();
-                        menu.Initialize(new string[] { "Ability", "Wait" });
-                        ActiveMenu = menu;
-                        State = GameState.ORDER_UNIT_ACTION;
-                    }
+                    IssueMoveOrder(SelectedUnit, MouseTile);
                 }
              } else if (State == GameState.ORDER_UNIT_ACTION) {
                  ActiveMenu.Update(input);
@@ -214,6 +218,38 @@ namespace Tactics
 
             // TODO: Add your update logic here			
             base.Update(gameTime);
+        }
+
+        public void IssueMoveOrder(Unit SelectedUnit, Tile MouseTile) {
+            var path = Map.PathBetween(SelectedUnit, MouseTile);
+
+            if (path == null || path.Count() - 1 > SelectedUnit.MoveDistance)
+                return; // Give up if the unit can't reach the selected tile
+
+            // Animate the unit moving to destination
+            var anim = new Animation();
+
+            anim.BlockInput = true;
+            anim.FrameInterval = 50;
+
+            anim.OnFrame((frameNum) => {
+                var tile = path[0];
+                SelectedUnit.Put(tile);
+                path.RemoveAt(0);
+                if (path.Count() == 0) {
+                    anim.Stop();
+                }
+            });
+
+            anim.OnEnd(() => {                
+                // Open the action menu
+                var menu = new Menu();
+                menu.Initialize(new string[] { "Ability", "Wait" });
+                ActiveMenu = menu;
+                State = GameState.ORDER_UNIT_ACTION;
+            });
+
+            anim.Start();
         }
 
         public void EndTurn() {
