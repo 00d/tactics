@@ -47,6 +47,15 @@
       <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
       <Time>2013-09-29T23:00:42.7696219+10:00</Time>
     </Item>
+    <Item>
+      <Source>Sprite\fireball.png</Source>
+      <Name>Sprite\fireball</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\fireball.xnb</Output>
+      <Time>2013-11-03T22:28:33+11:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{61FBCFB1-F03D-46CD-AAE5-43ED09ADEBD7}</ContentProjectGUID>

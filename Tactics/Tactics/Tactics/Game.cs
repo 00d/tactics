@@ -29,7 +29,7 @@ namespace Tactics
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
-        public enum GameState { SELECT_UNIT, ORDER_UNIT_MOVE, ORDER_UNIT_ACTION }
+        public enum GameState { SELECT_UNIT, ORDER_UNIT_MOVE, ORDER_UNIT_ACTION, TARGET_ABILITY }
 
         public GraphicsDeviceManager GraphicsManager;
         public GraphicsDevice Graphics;
@@ -45,6 +45,7 @@ namespace Tactics
         public List<Animation> Animations = new List<Animation>(); // Currently playing animations
 
         public Unit SelectedUnit;
+        public Ability SelectedAbility;
 
         public Tile MouseTile; // Whichever tile the player is currently moused over
 
@@ -206,13 +207,23 @@ namespace Tactics
                 }
              } else if (State == GameState.ORDER_UNIT_ACTION) {
                  ActiveMenu.Update(input);
-
+                 
                  if (ActiveMenu.Chosen) {
                      if (ActiveMenu.Selection == 0) {
+                         State = GameState.TARGET_ABILITY; // Switch to targeter
+                         SelectedAbility = new Ability();
                      } else {
+                         // Waiting
                          SelectedUnit.Moved = true;
                          State = GameState.SELECT_UNIT;
                      }
+                 }
+             } else if (State == GameState.TARGET_ABILITY) {
+                 if (input.Mouse.LeftButton == ButtonState.Pressed) {
+                     SelectedAbility.Invoke(SelectedUnit, MouseTile).OnEnd(() => {
+                         SelectedUnit.Moved = true;
+                         State = GameState.SELECT_UNIT;
+                     });
                  }
              }
 
@@ -244,7 +255,7 @@ namespace Tactics
             anim.OnEnd(() => {                
                 // Open the action menu
                 var menu = new Menu();
-                menu.Initialize(new string[] { "Ability", "Wait" });
+                menu.Initialize(new string[] { "Fireball", "Wait" });
                 ActiveMenu = menu;
                 State = GameState.ORDER_UNIT_ACTION;
             });
@@ -296,6 +307,8 @@ namespace Tactics
                     }
                     SpriteBatch.Draw(SelectedUnit.Texture, ScreenPos(destTile), new Color(255, 255, 255, 175));
                 }
+            } else if (State == GameState.TARGET_ABILITY) {
+                SpriteBatch.Draw(Overlay, ScreenPos(MouseTile), Settings.OVERLAY_RED);             
             }
           
             foreach (var unit in Units) {
@@ -304,6 +317,10 @@ namespace Tactics
                 } else {
                     SpriteBatch.Draw(unit.Texture, ScreenPos(unit.Tile), Color.White);
                 }
+            }
+
+            foreach (var anim in Animations) {
+                anim.Draw(SpriteBatch);
             }
 
             if (State == GameState.ORDER_UNIT_ACTION) {

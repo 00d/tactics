@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Ability.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Map.cs" />

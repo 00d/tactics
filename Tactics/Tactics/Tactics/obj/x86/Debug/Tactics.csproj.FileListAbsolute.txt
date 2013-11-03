@@ -14,3 +14,5 @@ C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.xnb
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma
 C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\fireball.xnb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\fireball.png

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Tactics {
     // A system for running time-sensitive, repeating code
@@ -12,6 +13,7 @@ namespace Tactics {
         public int Frame = 0; // Which frame we're up to
         public bool BlockInput = true; // Whether this blocks user input
         public Action<int> FrameAction; // Callback for each frame
+        public Action<SpriteBatch> DrawAction; // Optional callback for drawing
         public Action EndAction; // Callback for end of animation
 
         public void Update(GameTime gameTime) {
@@ -33,6 +35,16 @@ namespace Tactics {
 
         public void OnEnd(Action endAction) {
             EndAction = endAction;
+        }
+
+        public void OnDraw(Action<SpriteBatch> drawAction) {
+            DrawAction = drawAction;
+        }
+
+        public void Draw(SpriteBatch spriteBatch) {
+            if (DrawAction != null) {
+                DrawAction(spriteBatch);
+            }
         }
 
         public void Start() {
