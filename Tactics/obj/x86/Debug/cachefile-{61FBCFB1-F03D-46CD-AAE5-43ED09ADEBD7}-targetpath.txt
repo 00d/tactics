@@ -1,10 +1,10 @@
 Content\clear.xnb
 Content\Sprite\testenemy.xnb
 Content\Sprite\testunit.xnb
+Content\Sprite\fireball.xnb
+Content\SpriteFont1.xnb
 Content\Music\HonorableCombat.xnb
 Content\Music\HonorableCombat.wma
-Content\SpriteFont1.xnb
-Content\Sprite\fireball.xnb
 Content\Sprite\fireball.png
 Content\Map\tiletest.tmx
 Content\Tile\bunch_o__free_tiles_by_magiscarf-d6ih36g.png

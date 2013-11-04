@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\clear.xnb</Output>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\clear.xnb</Output>
       <Time>2013-09-29T03:42:40.7283258+10:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\testenemy.xnb</Output>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\Sprite\testenemy.xnb</Output>
       <Time>2013-09-29T03:43:37.4465699+10:00</Time>
     </Item>
     <Item>
@@ -25,27 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\testunit.xnb</Output>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\Sprite\testunit.xnb</Output>
       <Time>2013-09-29T03:43:37.4475699+10:00</Time>
-    </Item>
-    <Item>
-      <Source>Music\HonorableCombat.mp3</Source>
-      <Name>Music\HonorableCombat</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.xnb</Output>
-      <Extra>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma</Extra>
-      <Time>2013-09-29T20:26:57.8979894+10:00</Time>
-    </Item>
-    <Item>
-      <Source>SpriteFont1.spritefont</Source>
-      <Name>SpriteFont1</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
-      <Time>2013-09-29T23:00:42.7696219+10:00</Time>
     </Item>
     <Item>
       <Source>Sprite\fireball.png</Source>
@@ -53,8 +34,27 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\Sprite\fireball.xnb</Output>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\Sprite\fireball.xnb</Output>
       <Time>2013-11-03T22:28:33+11:00</Time>
+    </Item>
+    <Item>
+      <Source>SpriteFont1.spritefont</Source>
+      <Name>SpriteFont1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Time>2013-09-29T23:00:42.7696219+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\HonorableCombat.mp3</Source>
+      <Name>Music\HonorableCombat</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.xnb</Output>
+      <Extra>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\Music\HonorableCombat.wma</Extra>
+      <Time>2013-09-29T20:26:57.8979894+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -63,10 +63,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\TacticsContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\Tactics\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\TacticsContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

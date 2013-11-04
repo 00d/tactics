@@ -1,0 +1,3 @@
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\Tactics\TacticsContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\Tactics\TacticsContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TacticsContent\obj\x86\Debug\ResolveAssemblyReference.cache

@@ -91,7 +91,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TiledSharp\TiledSharp\TiledSharp.csproj">
+    <ProjectReference Include="..\TiledSharp\TiledSharp.csproj">
       <Project>{E4130F8D-D301-4E0C-916D-489C4A23C9B1}</Project>
       <Name>TiledSharp</Name>
     </ProjectReference>
