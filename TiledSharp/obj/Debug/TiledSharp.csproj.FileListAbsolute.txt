@@ -1,0 +1,10 @@
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\TiledSharp\bin\Debug\TiledSharp.dll
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\TiledSharp\bin\Debug\TiledSharp.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\TiledSharp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\TiledSharp\obj\Debug\TiledSharp.dll
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\TiledSharp\obj\Debug\TiledSharp.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\obj\Debug\TiledSharp.dll
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\obj\Debug\TiledSharp.pdb
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\bin\Debug\TiledSharp.dll
+C:\Users\Jaiden Mispy\Dropbox\src\tactics\TiledSharp\bin\Debug\TiledSharp.pdb
