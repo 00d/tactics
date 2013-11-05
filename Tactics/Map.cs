@@ -1,6 +1,6 @@
-// Distributed as part of Tesserae, Copyright 2012 Marshall Ward
-// Licensed under the Apache License, Version 2.0
-// http://www.apache.org/licenses/LICENSE-2.0
+// Derived from code by Marshall Ward (see NOTICE)
+// https://github.com/marshallward/Tesserae
+
 using System;
 using System.Collections.Generic;
 using System.IO;
